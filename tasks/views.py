@@ -5,7 +5,7 @@ from tasks.serializers import TaskSerializer
 from tasks.providers import get_tasks, delete_task_by_task, get_task_by_id
 from tasks.lib.exceptions import get_object_by_id, get_task_and_paginator_by_tasks_and_page
 from tasks.lib.utils import create_notification_email
-
+from tasks.lib.constants import NOTIFICATION_ACTION_CREATE, NOTIFICATION_ACTION_UPDATE
 
 class TaskListCreateAPIView(APIView):
     def get(self, request):
@@ -25,7 +25,7 @@ class TaskListCreateAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
             task = get_task_by_id(pk=serializer.data.get("id"))
-            create_notification_email(title=task.title, email=task.email)
+            create_notification_email(title=task.title, email=task.email, action=NOTIFICATION_ACTION_CREATE)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -42,6 +42,7 @@ class TaskDetailUpdateDestroyAPIView(APIView):
         serializer = TaskSerializer(task, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            create_notification_email(title=task.title, email=task.email, action=NOTIFICATION_ACTION_UPDATE)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -50,6 +51,7 @@ class TaskDetailUpdateDestroyAPIView(APIView):
         serializer = TaskSerializer(task, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            create_notification_email(title=task.title, email=task.email, action=NOTIFICATION_ACTION_UPDATE)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
