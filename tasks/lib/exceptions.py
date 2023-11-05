@@ -12,7 +12,7 @@ def get_object_by_id(pk: int):
         raise Http404
 
 
-def get_task_and_paginator_by_tasks_and_page(tasks: List[Task], page: int) -> (List[Task], int):
+def get_task_and_paginator_by_tasks_and_page(tasks: List[Task], page: int) -> (Paginator.page, Paginator):
     paginator = Paginator(tasks, 3)
     try:
         tasks = paginator.page(page)
