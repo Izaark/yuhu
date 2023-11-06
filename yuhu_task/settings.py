@@ -150,7 +150,7 @@ CELERY_TIMEZONE = 'America/Mexico_City'
 CELERY_BEAT_SCHEDULE = {
     'check-tasks-every-10-minutes': {
         'task': 'tasks.tasks.check_due_tasks',
-        'schedule': crontab(minute='*/10'),  # execute every 5 minutes
+        'schedule': crontab(minute='*/10'),  # execute every 10 minutes
     },
 }
 
