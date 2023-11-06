@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
+from rest_framework.authentication import TokenAuthentication
 from tasks.serializers import TaskSerializer
 from tasks.providers import get_tasks, delete_task_by_task, get_task_by_id
 from tasks.lib.exceptions import get_object_by_id, get_task_and_paginator_by_tasks_and_page
@@ -8,6 +9,8 @@ from tasks.lib.utils import create_notification_email
 from tasks.lib.constants import NOTIFICATION_ACTION_CREATE, NOTIFICATION_ACTION_UPDATE
 
 class TaskListCreateAPIView(APIView):
+
+    permission_classes = [permissions.AllowAny]
     def get(self, request):
         tasks = get_tasks()
         page = request.query_params.get('page')
@@ -31,6 +34,8 @@ class TaskListCreateAPIView(APIView):
 
 
 class TaskDetailUpdateDestroyAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, pk):
         task = get_object_by_id(pk=pk)

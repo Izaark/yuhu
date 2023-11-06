@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'tasks'
+    'rest_framework.authtoken',
+    'tasks',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -146,8 +148,15 @@ CELERY_TIMEZONE = 'America/Mexico_City'
 
 
 CELERY_BEAT_SCHEDULE = {
-    'check-tasks-every-1-minutes': {
+    'check-tasks-every-10-minutes': {
         'task': 'tasks.tasks.check_due_tasks',
-        'schedule': crontab(minute='*/1'),  # execute every 5 minutes
+        'schedule': crontab(minute='*/10'),  # execute every 5 minutes
     },
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
