@@ -13,7 +13,7 @@ def get_object_by_id(pk: int):
 
 
 def get_task_and_paginator_by_tasks_and_page(tasks: QuerySet[Task], page: int) -> (Paginator.page, Paginator):
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 5)
     try:
         tasks = paginator.page(page)
     except PageNotAnInteger:
