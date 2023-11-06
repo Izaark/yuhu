@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+        <link rel="stylesheet" href="{% static 'yuhu_task/css/detail_update.css' %}">
+</head>
+<body>
+    {% block content %}
+      <h2>Update Task</h2>
+      <form method="post" action="{% url 'task_update' task_id %}">
+        {% csrf_token %}
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ form.instance.title }}"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description">{{ form.instance.description }}</textarea><br>
+        <input type="submit" value="Update Task">
+      </form>
+    {% endblock %}
+</body>

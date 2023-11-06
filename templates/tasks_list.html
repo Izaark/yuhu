@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+    <link rel="stylesheet" href="{% static 'yuhu_task/css/list_styles.css' %}">
+</head>
+<body>
+    {% block content %}
+      <h2>Lista de Tareas</h2>
+      <div>
+        <p>Total Tareas: {{ tasks.total }}</p>
+        <p>Página: {{ tasks.page }} de {{ tasks.pages }}</p>
+      </div>
+      <ul>
+        {% for task in tasks.results %}
+          <li>
+            <strong>Título:</strong> {{ task.title }}<br>
+            <strong>Email:</strong> {{ task.email }}<br>
+            <strong>Descripción:</strong> {{ task.description }}<br>
+            <strong>Fecha de Vencimiento:</strong> {{ task.due_date }}<br>
+            <strong>Activa:</strong> {{ task.is_active }}
+
+            <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="delete-button">Eliminar Tarea</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div>
+        {% if tasks.page > 1 %}
+          <a href="?page={{ tasks.page|add:'-1' }}">Anterior</a>
+        {% endif %}
+
+        {% if tasks.page < tasks.pages %}
+          <a href="?page={{ tasks.page|add:'1' }}">Siguiente</a>
+        {% endif %}
+      </div>
+    {% endblock %}
+</body>

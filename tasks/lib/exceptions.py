@@ -1,4 +1,4 @@
-from typing import List
+from django.db.models import QuerySet
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
 from tasks.models import Task
@@ -12,7 +12,7 @@ def get_object_by_id(pk: int):
         raise Http404
 
 
-def get_task_and_paginator_by_tasks_and_page(tasks: List[Task], page: int) -> (Paginator.page, Paginator):
+def get_task_and_paginator_by_tasks_and_page(tasks: QuerySet[Task], page: int) -> (Paginator.page, Paginator):
     paginator = Paginator(tasks, 3)
     try:
         tasks = paginator.page(page)

@@ -29,4 +29,3 @@ def get_title_and_email_from_inactive_tasks() -> QuerySet:
     set_inactive_tasks()
     tasks = get_due_tasks_by_is_active(is_active=False)
     return tasks.values('title', 'email')
-

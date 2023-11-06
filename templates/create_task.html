@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+        <link rel="stylesheet" href="{% static 'yuhu_task/css/styles.css' %}">
+</head>
+<body>
+    <h1>Create a New Task</h1>
+    <form action="{% url 'create_task_url' %}" method="post" class="form-task">
+        {% csrf_token %}
+        <label for="title">Título:</label><br>
+        <input type="text" id="title" name="title" placeholder="Titulo de la tarea" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Ingresa tu email" required><br>
+
+        <label for="description">Descripcción:</label><br>
+        <textarea id="description" name="description" placeholder="Ingresa un descripcción" required></textarea><br>
+
+        <label for="due_date">Fecha de Vencimiento:</label><br>
+        <input type="datetime-local" id="due_date" name="due_date" required><br>
+
+        <input type="submit" value="Crear Tarea">
+    </form>
+</body>
+</html>
